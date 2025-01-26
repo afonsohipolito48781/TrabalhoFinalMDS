@@ -28,8 +28,9 @@ public class Gestor {
     }
 
     // Métodos
-    public void registarManutencao(){}
-    public void verManutencao(){}
+    //public void criarManutencao(Manutencao manutencao) { }
+    //public void registarManutencao(Manutencao manutencao){ }
+    //public void verManutencao(Quarto quarto){ }
     public void getHistoricoHospede(){}  // Não necessário para este trabalho
 
 
