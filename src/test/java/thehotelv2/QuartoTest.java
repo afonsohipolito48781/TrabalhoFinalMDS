@@ -1,6 +1,6 @@
 package thehotelv2;
 
-public class Quarto {
+public class QuartoTest {
 
     private int id_quarto;
     private int id_utilizador;
@@ -15,8 +15,18 @@ public class Quarto {
     private boolean ocupado;
 
     // Construtores
-    public Quarto(){};
-    public Quarto(String tipoVista, int capacidade, int camas, int wcs, boolean cozinha, boolean varanda) {
+    public QuartoTest(){};
+    public QuartoTest(String tipoVista, int capacidade, int camas, int wcs, boolean cozinha, boolean varanda) {
+        // Restrições
+        if (capacidade <= 0) {
+            throw new IllegalArgumentException("Capacidade inválida.");
+        }
+        if (camas <= 0) {
+            throw new IllegalArgumentException("Número de camas inválido.");
+        }
+        if (wcs <= 0) {
+            throw new IllegalArgumentException("Número de WC's inválido.");
+        }
         this.tipoVista = tipoVista;
         this.capacidade = capacidade;
         this.camas = camas;
@@ -24,7 +34,17 @@ public class Quarto {
         this.cozinha = cozinha;
         this.varanda = varanda;
     }
-    public Quarto(int id_quarto, String tipoVista, int capacidade, int camas, int wcs, boolean cozinha, boolean varanda) {
+    public QuartoTest(int id_quarto, String tipoVista, int capacidade, int camas, int wcs, boolean cozinha, boolean varanda) {
+        // Restrições
+        if (capacidade <= 0) {
+            throw new IllegalArgumentException("Capacidade inválida.");
+        }
+        if (camas <= 0) {
+            throw new IllegalArgumentException("Número de camas inválido.");
+        }
+        if (wcs <= 0) {
+            throw new IllegalArgumentException("Número de WC's inválido.");
+        }
         this.id_quarto = id_quarto;
         this.tipoVista = tipoVista;
         this.capacidade = capacidade;
