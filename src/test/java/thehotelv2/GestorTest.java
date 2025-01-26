@@ -1,68 +1,92 @@
 package thehotelv2;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
+class GestorTest {
 
-public class GestorTest {
+    @Test
+    void testCriarQuarto() {
+        Gestor gestor = new Gestor(1);
+        Quarto quarto = new Quarto(101, "Vista Mar", 2, 1, 1, false, false);
 
-    private int id_utilizador;
+        gestor.criarQuarto(quarto);
 
-    private List<Quarto> listaQuartos = new ArrayList<>();
-
-    public GestorTest(int id_utilizador){
-        this.id_utilizador = id_utilizador;
+        assertEquals(1, gestor.getListaQuartos().size(), "Deve haver um quarto na lista.");
+        assertEquals(101, gestor.getListaQuartos().get(0).getId_quarto(), "O ID do quarto deve ser 101.");
     }
 
-    public int getId_utilizador() {
-        return id_utilizador;
-    }
-    public void setId_utilizador(int id_utilizador) {
-        this.id_utilizador = id_utilizador;
-    }
-    public List<Quarto> getListaQuartos() {
-        return listaQuartos;
-    }
-    public void setListaQuartos(List<Quarto> listaQuartos) {
-        this.listaQuartos = listaQuartos;
+    @Test
+    void testRemoverQuartoExistente() {
+        Gestor gestor = new Gestor(1);
+        Quarto quarto = new Quarto(102, "Vista Montanha", 3, 2, 1, false, false);
+        gestor.criarQuarto(quarto);
+
+        gestor.removerQuarto(102);
+
+        assertTrue(gestor.getListaQuartos().isEmpty(), "A lista de quartos deve estar vazia após a remoção.");
     }
 
-    // Métodos
-    public void registarManutencao(){}
-    public void verManutencao(){}
-    public void getHistoricoHospede(){}  // Não necessário para este trabalho
+    @Test
+    void testRemoverQuartoInexistente() {
+        Gestor gestor = new Gestor(1);
 
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            gestor.removerQuarto(999);
+        });
 
-    // Issue #1: Criar Quarto
-    public void criarQuarto(Quarto quarto) {
-        try {
-            listaQuartos.add(quarto);
-            System.out.println("Quarto adicionado. ID " + quarto.getId_quarto());
-        } catch (Exception e) {
-            System.out.println("Erro a adicionar quarto.");
-        }
+        assertEquals("Quarto não existe.", exception.getMessage());
     }
 
-    // Issue #2: Remover Quarto
-    public void removerQuarto(int IDquarto) {
-        for (Quarto quarto : listaQuartos) {
-            if (quarto.getId_quarto() == IDquarto && !quarto.isOcupado()){
-                listaQuartos.remove(listaQuartos.indexOf(quarto));
-                return;
-            }
-        }
-        throw new IllegalArgumentException("Quarto não existe.");
+    @Test
+    void testEditarQuartoExistente() {
+        Gestor gestor = new Gestor(1);
+        Quarto quarto = new Quarto(103, "Vista Jardim", 2, 1, 1, false, false);
+        gestor.criarQuarto(quarto);
+
+        Quarto quartoNovo = new Quarto(103, "Vista Lago", 3, 2, 2, true, true);
+        gestor.editarQuarto(103, quartoNovo);
+
+        Quarto quartoEditado = gestor.getListaQuartos().get(0);
+        assertEquals("Vista Lago", quartoEditado.getVista(), "A vista do quarto deve ser 'Vista Lago'.");
+        assertEquals(3, quartoEditado.getCapacidade(), "A capacidade do quarto deve ser 3.");
+        assertEquals(2, quartoEditado.getCamas(), "O número de camas deve ser 2.");
+        assertTrue(quartoEditado.temCozinha(), "O quarto deve ter cozinha.");
+        assertTrue(quartoEditado.temVaranda(), "O quarto deve ter varanda.");
     }
 
-    // Issue #3: Editar Quarto
-    public void editarQuarto(int IDquarto, Quarto quarto) {
-        for (int i = 0; i < listaQuartos.size(); i++) {
-            if (listaQuartos.get(i).getId_quarto() == IDquarto) {
-                listaQuartos.set(i, quarto);  // Usa o índice correto em vez do ID diretamente
-                return;
-            }
-        }
-        throw new IllegalArgumentException("Quarto não existe.");
+    @Test
+    void testEditarQuartoInexistente() {
+        Gestor gestor = new Gestor(1);
+        Quarto quartoNovo = new Quarto(104, "Vista Rio", 2, 1, 1, false, false);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            gestor.editarQuarto(999, quartoNovo);
+        });
+
+        assertEquals("Quarto não existe.", exception.getMessage());
     }
 
+    @Test
+    void testAdicionarMultiplosQuartos() {
+        Gestor gestor = new Gestor(1);
+        gestor.criarQuarto(new Quarto(201, "Vista Praia", 2, 1, 1, false, false));
+        gestor.criarQuarto(new Quarto(202, "Vista Montanha", 4, 2, 1, true, false));
+
+        assertEquals(2, gestor.getListaQuartos().size(), "Devem existir 2 quartos na lista.");
+    }
+
+    @Test
+    void testRemoverQuartoOcupado() {
+        Gestor gestor = new Gestor(1);
+        Quarto quarto = new Quarto(203, "Vista Jardim", 2, 1, 1, false, false);
+        quarto.setOcupado(true);
+        gestor.criarQuarto(quarto);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            gestor.removerQuarto(203);
+        });
+
+        assertEquals("Quarto não existe.", exception.getMessage());
+    }
 }
