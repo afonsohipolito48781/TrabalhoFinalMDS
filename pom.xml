@@ -40,13 +40,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Dependência para trabalhar com JSON (caso necessário) -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.15.2</version>
-        </dependency>
-
         <!-- Dependência opcional para validação de dados com Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
