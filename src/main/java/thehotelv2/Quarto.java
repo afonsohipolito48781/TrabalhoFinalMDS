@@ -135,12 +135,12 @@ public class Quarto {
         this.id_manutencao = id_manutencao;
     }
 
-    // Issue #?: adicionar registo de manutenções
+    // Issue #5: registo de manutenções
     public List<Manutencao> getRegistoManutencoes() {
         return registoManutencoes;
     }
 
-    // Issue #?: getter e setter emManutenção
+    // getter e setter emManutenção
     public boolean isEmManutencao() {
         return emManutencao;
     }
